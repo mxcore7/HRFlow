@@ -207,9 +207,12 @@ class EmployeePage(QWidget):
             "Matricule", "Nom", "Prénom", "Poste", "Département", "Téléphone", "Salaire", "Actions"
         ])
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.table.horizontalHeader().setSectionResizeMode(7, QHeaderView.ResizeMode.Fixed)
+        self.table.setColumnWidth(7, 140)
         self.table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.table.setAlternatingRowColors(True)
         self.table.verticalHeader().setVisible(False)
+        self.table.verticalHeader().setDefaultSectionSize(42)
         self.table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         layout.addWidget(self.table)
 
@@ -282,17 +285,15 @@ class EmployeePage(QWidget):
     def _generate_badge(self, employee_id):
         emp = EmployeeService.get_by_id(employee_id)
         if emp:
-            path, _ = QFileDialog.getSaveFileName(
-                self, "Enregistrer le badge", f"badge_{emp.matricule}.pdf",
-                "PDF (*.pdf)"
-            )
-            if path:
-                try:
-                    generate_badge_pdf(emp, path)
-                    QMessageBox.information(self, "Succès", f"Badge généré : {path}")
-                    os.startfile(path)
-                except Exception as e:
-                    QMessageBox.critical(self, "Erreur", str(e))
+            badges_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "documents", "badges")
+            os.makedirs(badges_dir, exist_ok=True)
+            path = os.path.join(badges_dir, f"badge_{emp.matricule}.pdf")
+            try:
+                generate_badge_pdf(emp, path)
+                QMessageBox.information(self, "Succès", f"Badge généré : {path}")
+                os.startfile(path)
+            except Exception as e:
+                QMessageBox.critical(self, "Erreur", str(e))
 
     def _delete_employee(self, employee_id):
         reply = QMessageBox.question(

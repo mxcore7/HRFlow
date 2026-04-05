@@ -61,8 +61,11 @@ class SalaryPage(QWidget):
             "Net", "KPI Score", "Actions"
         ])
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.table.horizontalHeader().setSectionResizeMode(8, QHeaderView.ResizeMode.Fixed)
+        self.table.setColumnWidth(8, 80)
         self.table.setAlternatingRowColors(True)
         self.table.verticalHeader().setVisible(False)
+        self.table.verticalHeader().setDefaultSectionSize(42)
         self.table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         layout.addWidget(self.table)
 
@@ -173,15 +176,12 @@ class SalaryPage(QWidget):
         kpi = kpis[0] if kpis else None
         config = load_config()
 
-        path, _ = QFileDialog.getSaveFileName(
-            self, "Enregistrer la fiche de paie",
-            f"fiche_paie_{emp.matricule}_{sal.mois:02d}_{sal.annee}.pdf",
-            "PDF (*.pdf)"
-        )
-        if path:
-            try:
-                generate_payslip_pdf(emp, sal, kpi, path, config.get("company", {}))
-                QMessageBox.information(self, "Succès", f"Fiche de paie exportée : {path}")
-                os.startfile(path)
-            except Exception as e:
-                QMessageBox.critical(self, "Erreur", str(e))
+        paie_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "documents", "fiches_de_paie")
+        os.makedirs(paie_dir, exist_ok=True)
+        path = os.path.join(paie_dir, f"fiche_paie_{emp.matricule}_{sal.mois:02d}_{sal.annee}.pdf")
+        try:
+            generate_payslip_pdf(emp, sal, kpi, path, config.get("company", {}))
+            QMessageBox.information(self, "Succès", f"Fiche de paie exportée : {path}")
+            os.startfile(path)
+        except Exception as e:
+            QMessageBox.critical(self, "Erreur", str(e))

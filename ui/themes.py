@@ -7,6 +7,8 @@ QMainWindow, QWidget {
 
 QLabel {
     color: #e6edf3;
+    background: transparent;
+    border: none;
 }
 
 QLineEdit, QTextEdit, QPlainTextEdit, QSpinBox, QDoubleSpinBox, QDateEdit {
@@ -58,9 +60,10 @@ QPushButton {
     color: #ffffff;
     border: none;
     border-radius: 8px;
-    padding: 8px 20px;
+    padding: 10px 20px;
     font-size: 13px;
     font-weight: bold;
+    min-height: 18px;
 }
 
 QPushButton:hover {
@@ -72,7 +75,7 @@ QPushButton:pressed {
 }
 
 QPushButton[class="danger"] {
-    background-color: #da3633;
+    background-color: #f85149;
 }
 
 QPushButton[class="danger"]:hover {
@@ -80,8 +83,8 @@ QPushButton[class="danger"]:hover {
 }
 
 QPushButton[class="secondary"] {
-    background-color: #30363d;
-    color: #c9d1d9;
+    background-color: #484f58;
+    color: #e6edf3;
 }
 
 QPushButton[class="secondary"]:hover {
@@ -111,6 +114,14 @@ QTableWidget, QTableView {
 QTableWidget::item {
     padding: 6px 10px;
     border-bottom: 1px solid #21262d;
+}
+
+QTableWidget QPushButton {
+    padding: 2px;
+    min-height: 0px;
+    min-width: 0px;
+    font-size: 12px;
+    border-radius: 6px;
 }
 
 QHeaderView::section {
@@ -242,6 +253,8 @@ QMainWindow, QWidget {
 
 QLabel {
     color: #24292f;
+    background: transparent;
+    border: none;
 }
 
 QLineEdit, QTextEdit, QPlainTextEdit, QSpinBox, QDoubleSpinBox, QDateEdit {
@@ -294,9 +307,10 @@ QPushButton {
     color: #ffffff;
     border: none;
     border-radius: 8px;
-    padding: 8px 20px;
+    padding: 10px 20px;
     font-size: 13px;
     font-weight: bold;
+    min-height: 18px;
 }
 
 QPushButton:hover {
@@ -348,6 +362,14 @@ QTableWidget, QTableView {
 QTableWidget::item {
     padding: 6px 10px;
     border-bottom: 1px solid #d8dee4;
+}
+
+QTableWidget QPushButton {
+    padding: 2px;
+    min-height: 0px;
+    min-width: 0px;
+    font-size: 12px;
+    border-radius: 6px;
 }
 
 QHeaderView::section {
